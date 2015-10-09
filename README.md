@@ -62,9 +62,8 @@ Um mini-framework que produz classes php a partir de uma simples formulário HTM
         propriedade esteja lá. Agora um exemplo de um formulário inválido onde não irá produzir um arquivo de classe válido:
     </p>
 
-        <pre>
             <?php
-                echo '
+                echo "
                 <code>
                     <form class="usuario" names="usuario" method="post" id="form"><!-- propriedade escrita errada, o cerreto é name! -->
                         <input type="text" > <!-- a propriedade name não se encontra aqui -->
@@ -73,9 +72,9 @@ Um mini-framework que produz classes php a partir de uma simples formulário HTM
                         <input type="text" id="teste name=senha"> <!-- falta fechar a aspa corretamente! -->
                     </form>
                 </code>
-                ';
+                ";
                 ?>
-        </pre>
+
 
     <p>
         Todos este erros e outros possíveis podem e vão gerar uma falha na produção do arquivo de classe.
