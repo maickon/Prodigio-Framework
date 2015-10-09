@@ -1,4 +1,4 @@
-<img src="img/tela-logo.png">
+<img src="img/tela-logo.gif">
 Um mini-framework que produz classes php a partir de uma simples formulário HTML.
 
 <h3>Sobre</h3>
@@ -43,12 +43,14 @@ Um mini-framework que produz classes php a partir de uma simples formulário HTM
     </p>
     <pre>
         <code>
-            <form class="usuario" name="usuario" method="post" id="form">
-                <input type="text" name="nome">
-                <input type="text" id="teste" name="email">
-                <input type="text" name="login">
-                <input type="text" id="teste" name="senha">
-            </form>
+            <html>
+                <form class="usuario" name="usuario" method="post" id="form">
+                    <input type="text" name="nome">
+                    <input type="text" id="teste" name="email">
+                    <input type="text" name="login">
+                    <input type="text" id="teste" name="senha">
+                </form>
+            </html>
         </code>
     </pre>
     <p>
@@ -57,12 +59,14 @@ Um mini-framework que produz classes php a partir de uma simples formulário HTM
     </p>
     <pre>
         <code>
-            <form class="usuario" names="usuario" method="post" id="form"><!-- propriedade escrita errada, o cerreto é name! -->
-                <input type="text" > <!-- a propriedade name não se encontra aqui -->
-                <input type="text" id="teste" mame="email"> <!-- novamente, a propriedade escrita errada, o cerreto é name! -->
-                <input type="text" name "login"> <!-- falta o sinal de igual -->
-                <input type="text" id="teste name=senha"> <!-- falta fechar a aspa corretamente! -->
-            </form>
+            <html>
+                <form class="usuario" names="usuario" method="post" id="form"><!-- propriedade escrita errada, o cerreto é name! -->
+                    <input type="text" > <!-- a propriedade name não se encontra aqui -->
+                    <input type="text" id="teste" mame="email"> <!-- novamente, a propriedade escrita errada, o cerreto é name! -->
+                    <input type="text" name "login"> <!-- falta o sinal de igual -->
+                    <input type="text" id="teste name=senha"> <!-- falta fechar a aspa corretamente! -->
+                </form>
+            </html>
         </code>
     </pre>
     <p>
