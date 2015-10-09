@@ -60,8 +60,38 @@ function make_class(){
         $path_class = BASEPATH.GENERATEPATH.$scope_class[0].'.class.php';
         $prodigio->make_class($scope_class,$path_class);
     endforeach;
+}
 
+function define_db_status($db_info){
+    //print_r($db_info);
+    $file = file_get_contents("../config.php");
+    $lines = explode("\n", $file);
+    $db_line = [];
+    $db_label = array("DB_NAME","DB_USER","DB_PASS","DB_HOST");
+    $db_label_indice = 0;
+    $n = "\n";
+    foreach($lines as $iline => $line):
+        if($line == 'define("'.$db_label[$db_label_indice].'", "?");'):
+            $line = 'define("'.$db_label[$db_label_indice].'", "'.$db_info[$db_label_indice].'");'.$n;
+            $lines[$iline] = $line;
+            $db_label_indice++;
+        else:
+            $lines[$iline] = $lines[$iline].$n;
+        endif;
+    endforeach;
+    if(file_put_contents("../config.php", $lines)):
+        echo "
+                -->Configuração de banco de dados feita com sucesso!
+                -->Confira em config.php
+                ";
+    else:
+        trigger_error("
+            Um erro ocorreu! configuração de banco de dados falhou. :(
+            ->Caso tenha modificado o arquivo config.php, desfaça o que fez! ", 256);
+    endif;
+}
 
-
-
+function db_config($database_name, $database_user, $database_pass, $database_host){
+    $db_status = array($database_name, $database_user, $database_pass, $database_host);
+    define_db_status($db_status);
 }

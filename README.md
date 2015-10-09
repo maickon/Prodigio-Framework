@@ -1,6 +1,9 @@
 <img src="img/logo.gif">
 Um mini-framework que produz classes php a partir de uma simples formulário HTML.
 
+Versão: 0.1
+Autor Maickon Rangel
+
 # Sobre
 
 Este mini framework foi feito para agilizar o processo de desenvolvimento de quem não gosta de escrever
@@ -65,6 +68,12 @@ Todos este erros e outros possíveis podem e vão gerar uma falha na produção 
 
 ## img
 Onde ficam as imagens do projeto.
+
+## js
+Onde ficam os arquivos java script.
+
+## pages
+Aqui se encontram as páginas publicas como home, sobre ect...
 
 ## Project
 Aqui se encontra uma breve descrição do projeto para se exibida via terminal.
