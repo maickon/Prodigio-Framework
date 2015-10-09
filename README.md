@@ -1,7 +1,7 @@
 <img src="img/logo.gif">
 Um mini-framework que produz classes php a partir de uma simples formulário HTML.
 
-<h3>[Sobre]</h3>
+<h3>Sobre</h3>
 <p>
     Este mini framework foi feito para agilizar o processo de desenvolvimento de quem não gosta de escrever
     seus arquivos de classe na mão. Com este pequeno fremewok basta você produzir sues arquivos de
@@ -14,26 +14,26 @@ Um mini-framework que produz classes php a partir de uma simples formulário HTM
     a posíveis problemas por questão de ambientação. É desejável que você utilize este projeto no linux.
 </p>
 
-<h3>[Estrutura dos diretórios]</h3>
+<h3>Estrutura dos diretórios</h3>
 <ul>
-    <li><u>[Class]</u></li>
+    <li><u>Class</u></li>
     <p>Aqui se encontra a classe principal responsável por gerar os arquivos de classe com base no formulário HTML.</p>
 
-    <li><u>[css]</u></li>
+    <li><u>css</u></li>
     <p>Arquivos css como de costume em qualquer projeto web. Ainda não foram utilizados... rsrs</p>
 
-    <li><u>[Fonts]</u></li>
+    <li><u># Fonts</u></li>
     <p>Arquivos para fontes.</p>
 
-    <li><u>[functions]</u></li>
+    <li><u>functions</u></li>
     <p>As funções de utilidade geral dentro do sistema serão postas aqui.</p>
 
-    <li><u>[generate_class]</u></li>
+    <li><u>generate_class</u></li>
     <p>
         Aqui é o local onde seus arquivos de classe serão gerados.
     </p>
 
-    <li><u>[html_form_pages]</u></li>
+    <li><u>html_form_pages</u></li>
     <p>
         É neste diretório que vocẽ vai cria os seus arquivos de formulário, um arquivo de formulário é um simples formulário HTML seguindo
         uma convenção para que o comando make-class gere a classe corretamente.
@@ -41,52 +41,52 @@ Um mini-framework que produz classes php a partir de uma simples formulário HTM
     <p>
         Quando for criar o seu formulário, fique ciente que cada tag deverá possuir um nome ou seja, uma propriedade name. Exemplo de um formulário válido:
     </p>
-    <div highlight highlight-text-html-basic>
+    ```html
         <pre>
             <code>
-                ```html
                 <form class="usuario" name="usuario" method="post" id="form">
                     <input type="text" name="nome">
                     <input type="text" id="teste" name="email">
                     <input type="text" name="login">
                     <input type="text" id="teste" name="senha">
                 </form>
-                ```
+
             </code>
         </pre>
-    </div>
+    ```
     <p>
         Observe que independente da orderm onde a propriedade [name] esteja, isso não importa. O que importa é que esta
         propriedade esteja lá. Agora um exemplo de um formulário inválido onde não irá produzir um arquivo de classe válido:
     </p>
 
-    <pre>
-        <code>
-            ```html
-            <form class="usuario" names="usuario" method="post" id="form"><!-- propriedade escrita errada, o cerreto é name! -->
-                <input type="text" > <!-- a propriedade name não se encontra aqui -->
-                <input type="text" id="teste" mame="email"> <!-- novamente, a propriedade escrita errada, o cerreto é name! -->
-                <input type="text" name "login"> <!-- falta o sinal de igual -->
-                <input type="text" id="teste name=senha"> <!-- falta fechar a aspa corretamente! -->
-            </form>
-            ```
-        </code>
-    </pre>
+    ```html
+        <pre>
+            <code>
+                <form class="usuario" names="usuario" method="post" id="form"><!-- propriedade escrita errada, o cerreto é name! -->
+                    <input type="text" > <!-- a propriedade name não se encontra aqui -->
+                    <input type="text" id="teste" mame="email"> <!-- novamente, a propriedade escrita errada, o cerreto é name! -->
+                    <input type="text" name "login"> <!-- falta o sinal de igual -->
+                    <input type="text" id="teste name=senha"> <!-- falta fechar a aspa corretamente! -->
+                </form>
+                ```
+            </code>
+        </pre>
+    ```
     <p>
         Todos este erros e outros possíveis podem e vão gerar uma falha na produção do arquivo de classe.
     </p>
 
-    <li><u>[img]</u></li>
+    <li><u>img</u></li>
     <p>
         Onde ficam as imagens do projeto.
     </p>
 
-    <li><u>[Project]</u></li>
+    <li><u>Project</u></li>
     <p>
         Aqui se encontra uma breve descrição do projeto para se exibida via terminal.
     </p>
 
-    <li><u>[Como utilizar]</u></li>
+    <li><u>Como utilizar</u></li>
     <p>
         A tela inicial exibe o menu. Quando baixado o projeto você deve estar dentro do diretório pelo terminal. Quando estiver dentro do projeto
         execute o comando  php index.php para dar início a tela principal conforme a imagem abaixo.
