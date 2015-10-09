@@ -41,37 +41,31 @@ Um mini-framework que produz classes php a partir de uma simples formulário HTM
     <p>
         Quando for criar o seu formulário, fique ciente que cada tag deverá possuir um nome ou seja, uma propriedade name. Exemplo de um formulário válido:
     </p>
+    <pre>
+        <code class="highlight highlight-text-html">
+            "<form class="usuario" name="usuario" method="post" id="form">
+                <input type="text" name="nome">
+                <input type="text" id="teste" name="email">
+                <input type="text" name="login">
+                <input type="text" id="teste" name="senha">
+            </form>"
+        </code>
+    </pre>
 
-    <li>
-        <div class="highlight highlight-text-html">
-            <pre>
-                <code>
-                    <form class="usuario" name="usuario" method="post" id="form">
-                        <input type="text" name="nome">
-                        <input type="text" id="teste" name="email">
-                        <input type="text" name="login">
-                        <input type="text" id="teste" name="senha">
-                    </form>
-                </code>
-            </pre>
-        </div>
-    </li>
     <p>
         Observe que independente da orderm onde a propriedade [name] esteja, isso não importa. O que importa é que esta
         propriedade esteja lá. Agora um exemplo de um formulário inválido onde não irá produzir um arquivo de classe válido:
     </p>
-    <div class="highlight highlight-text-html">
-        <pre>
-            <code>
-                <form class="usuario" names="usuario" method="post" id="form"><!-- propriedade escrita errada, o cerreto é name! -->
-                    <input type="text" > <!-- a propriedade name não se encontra aqui -->
-                    <input type="text" id="teste" mame="email"> <!-- novamente, a propriedade escrita errada, o cerreto é name! -->
-                    <input type="text" name "login"> <!-- falta o sinal de igual -->
-                    <input type="text" id="teste name=senha"> <!-- falta fechar a aspa corretamente! -->
-                </form>
-            </code>
-        </pre>
-    </div>
+    <pre>
+        <code class="highlight highlight-text-html">
+            <form class="usuario" names="usuario" method="post" id="form"><!-- propriedade escrita errada, o cerreto é name! -->
+                <input type="text" > <!-- a propriedade name não se encontra aqui -->
+                <input type="text" id="teste" mame="email"> <!-- novamente, a propriedade escrita errada, o cerreto é name! -->
+                <input type="text" name "login"> <!-- falta o sinal de igual -->
+                <input type="text" id="teste name=senha"> <!-- falta fechar a aspa corretamente! -->
+            </form>
+        </code>
+    </pre>
     <p>
         Todos este erros e outros possíveis podem e vão gerar uma falha na produção do arquivo de classe.
     </p>
