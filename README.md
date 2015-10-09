@@ -1,4 +1,4 @@
-![sarxos](https://github.com/maickon/Prodigio-Framework/tree/master/img/logo.gif "sarxos")
+<img src="img/logo.gif">
 Um mini-framework que produz classes php a partir de uma simples formulário HTML.
 
 # Sobre
@@ -35,26 +35,31 @@ uma convenção para que o comando make-class gere a classe corretamente.
 
 Quando for criar o seu formulário, fique ciente que cada tag deverá possuir um nome ou seja, uma propriedade name. Exemplo de um formulário válido:
 
-    ```html
+    <code>
         <form class="usuario" name="usuario" method="post" id="form">
             <input type="text" name="nome">
             <input type="text" id="teste" name="email">
             <input type="text" name="login">
             <input type="text" id="teste" name="senha">
         </form>
-    ```
+    </code>
 
 Observe que independente da orderm onde a propriedade [name] esteja, isso não importa. O que importa é que esta
 propriedade esteja lá. Agora um exemplo de um formulário inválido onde não irá produzir um arquivo de classe válido:
 
-    ```html
-        <form class="usuario" names="usuario" method="post" id="form"><!-- propriedade escrita errada, o cerreto é name! -->
-        <input type="text" > <!-- a propriedade name não se encontra aqui -->
-        <input type="text" id="teste" mame="email"> <!-- novamente, a propriedade escrita errada, o cerreto é name! -->
-        <input type="text" name "login"> <!-- falta o sinal de igual -->
-        <input type="text" id="teste name=senha"> <!-- falta fechar a aspa corretamente! -->
+    <code>
+        <form class="usuario" names="usuario" method="post" id="form">
+        <!-- propriedade escrita errada, o cerreto é name! -->
+        <input type="text" >
+        <!-- a propriedade name não se encontra aqui -->
+        <input type="text" id="teste" mame="email">
+        <!-- novamente, a propriedade escrita errada, o cerreto é name! -->
+        <input type="text" name "login">
+        <!-- falta o sinal de igual -->
+        <input type="text" id="teste name=senha">
+        <!-- falta fechar a aspa corretamente! -->
         </form>
-    ```
+    </code>
 
 Todos este erros e outros possíveis podem e vão gerar uma falha na produção do arquivo de classe.
 
