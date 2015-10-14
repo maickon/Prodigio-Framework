@@ -7,7 +7,7 @@ Autor Maickon Rangel
 # Sobre
 
 Este mini framework foi feito para agilizar o processo de desenvolvimento de quem não gosta de escrever
-seus arquivos de classe na mão. Com este pequeno fremewok basta você produzir sues arquivos de
+seus arquivos de classe na mão. Com este pequeno fremework basta você produzir seus arquivos de
 formulário HTML no diretório /html_form_pages/ e rodar o comando make-class. Pronto! uma classe
 no /diretório generate_class/ será criada com base no formulário HTML que você escreveu.
 
