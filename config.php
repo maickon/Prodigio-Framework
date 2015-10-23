@@ -15,7 +15,7 @@ define("PAGES_PATH", "pages/");
 define("CONFIG_FILE", "config.php");
 
 //database config
-define("DB_NAME", "?");
-define("DB_USER", "?");
-define("DB_PASS", "?");
-define("DB_HOST", "?");
+define("DB_NAME", "help-rpg");
+define("DB_USER", "maickon");
+define("DB_PASS", "root123");
+define("DB_HOST", "127.0.0.1");
