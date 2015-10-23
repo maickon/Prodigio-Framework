@@ -1,7 +1,7 @@
 <img src="img/logo.gif">
 Um mini-framework que produz classes php a partir de uma simples formulário HTML.
 
-Versão: 0.1
+Versão: 0.2
 Autor Maickon Rangel
 
 # Sobre
@@ -13,6 +13,9 @@ no /diretório generate_class/ será criada com base no formulário HTML que voc
 
 Por enquanto este projeto está sendo desenvolvido no ambiente linux, dessa forma não estou dando importância
 a posíveis problemas por questão de ambientação. É desejável que você utilize este projeto no linux.
+
+# update  versão:0.2 ## 23 de outubro de 2015
+Adicionado opção de configuração de banco de dados pelo terminal
 
 # Estrutura dos diretórios
 
