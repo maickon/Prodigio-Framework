@@ -1,0 +1,37 @@
+<!--  
+	Arquivo gerado pelo Build_Core 
+	@author Maickon Rangel - maickon4developers@gmail.com
+	Prodigio Framework - 2017
+	View: turmas
+-->
+<h1>View: Alunos</h1>
+<p>
+	<?php foreach ($alunos as $key => $value) {
+		echo '<ul>';
+		echo "<li>ID: {$value->id} - ".gettype($value->id)."</li>";
+		echo "<li>CURSO: {$value->fk_cursos} - ".gettype($value->fk_cursos)."</li>";
+		// echo "<li>CURSO: {$value->cursos->nome} - ".gettype($value->cursos->nome)."</li>";
+		echo "<li>NOME: {$value->nome} - ".gettype($value->nome)."</li>";
+		echo "<li>MATRICULA: {$value->matricula} - ".gettype($value->matricula)."</li>";
+		echo "<li>DESCRICAO: {$value->descricao} - ".gettype($value->descricao)."</li>";
+		echo '</ul>';
+	} ?>
+	</ul>
+</p>
+
+<div class="row">
+	<div class="col-md-12">
+
+		<span>Nome</span>
+		<input type="text" name="nome" id="nome" class="form-control" placeholder="nome">
+		<span>Curso</span>
+		<select name="curso" id="curso" class="form-control" placeholder="curso">
+			<option value="">Selecione</option>
+		</select>
+		<span>Matricula</span>
+		<input type="text" name="matricula" id="matricula" class="form-control" placeholder="matricula">
+		<span>Descricao</span>
+		<textarea name="descricao" id="descricao" class="form-control" placeholder="descricao"></textarea>
+
+	</div>
+</div>

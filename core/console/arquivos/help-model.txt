@@ -1,0 +1,8 @@
+[new model] => Cria uma novo modelo. Gera a classe e a respectiva tabela no DB.
+Exemplos: 
+	new model::Usuarios nome:varchar(255) login:varchar(255) email:varchar(255)
+	new model::Livros nome:varchar(255) isbn:integer preco:decimal(10,2)
+-------------------------------------------------------------------------------
+[del model] => Apaga um arquivo de classe de modelo.
+Exemplo:
+	del model::Livros //vai apagar o arquivo em app/models/livros.php

@@ -1,106 +1,46 @@
-<img src="img/logo.gif">
-Um mini-framework que produz classes php a partir de uma simples formulário HTML.
+<img src="app/assets/img/logo.gif">
+# Prodígio Framework
+Um simples framework para projetos simples de iniciante.
+Com o passar do tempo eu fui reunindo os utilitários que eu escrevia para me ajudar no desenvolvimento de minhas aplicações. Sei que o projeto é bem simples e nem se compara aos frameworks famosos por aí. Mas acredito que de alguma forma este simples framework consiga contribuir com a apredizado de alguém.
+O projeto é baseado no modelo MVC e oferecer recursos como geração de código a partir de comandos no termial. Classes de abstração de dados, configuração de rotas e entre outras ferramentas que buscam ajudar no desenvolvimento do projeto.
 
-Versão: 0.2
-Autor Maickon Rangel
+# Como usar
+Para usá-lo você deve ter alguma familiaridade com o conceito de MVC. Caso já tenha mexido com o rails, saiba que esta aplicação tem inspiração nele.
+Baixe uma ferramenta para o uso do PHP como Xampp, PhpMyAdmin ou algo similar, Crie um banco de dados com um nome ao seu gosto, abra o código do projeto e preencha as informações adequadas ao seu banco de dados em config/config.php.
+No array $_CONFIG você tem a opção de preencher os dados no ambiente local ou de produção. Como você está num ambiente local preencha somente os índices nesta chave do array. Em file_path você coloca o nome da pasta onde seu projeto se encontra, em db você coloca os dados do seu database.
+Dentro da pasta config/db eu deixei o arquivo .sql onde eu documentei um pouco sobre esta ferramenta. Sua descrição ainda é simples mas já da para ter uma noção básica ao dar uma olhada.
+Para poder usa-lá você terá que importar este arquivo para o seu banco de dados para poder visualizar a documentação, do contrário a página de cocumentação estará vazia.
 
-# Sobre
-
-Este mini framework foi feito para agilizar o processo de desenvolvimento de quem não gosta de escrever
-seus arquivos de classe na mão. Com este pequeno fremework basta você produzir seus arquivos de
-formulário HTML no diretório /html_form_pages/ e rodar o comando make-class. Pronto! uma classe
-no /diretório generate_class/ será criada com base no formulário HTML que você escreveu.
-
-Por enquanto este projeto está sendo desenvolvido no ambiente linux, dessa forma não estou dando importância
-a posíveis problemas por questão de ambientação. É desejável que você utilize este projeto no linux.
-
-# Update  versão:0.2
-### 23 de outubro de 2015
-Adicionado opção de configuração de banco de dados pelo terminal
-
-# Estrutura dos diretórios
-
-## Class
-Aqui se encontra a classe principal responsável por gerar os arquivos de classe com base no formulário HTML.
-
-## css
-Arquivos css como de costume em qualquer projeto web. Ainda não foram utilizados... rsrs
-
-## Fonts
-Arquivos para fontes.
-
-## functions
-As funções de utilidade geral dentro do sistema serão postas aqui.
-
-## generate_class
-Aqui é o local onde seus arquivos de classe serão gerados.
-
-## html_form_pages
-
-É neste diretório que vocẽ vai cria os seus arquivos de formulário, um arquivo de formulário é um simples formulário HTML seguindo
-uma convenção para que o comando make-class gere a classe corretamente.
-
-Quando for criar o seu formulário, fique ciente que cada tag deverá possuir um nome ou seja, uma propriedade name. Exemplo de um formulário válido:
-
-    <code>
-        <form class="usuario" name="usuario" method="post" id="form">
-            <input type="text" name="nome">
-            <input type="text" id="teste" name="email">
-            <input type="text" name="login">
-            <input type="text" id="teste" name="senha">
-        </form>
-    </code>
-
-Observe que independente da orderm onde a propriedade [name] esteja, isso não importa. O que importa é que esta
-propriedade esteja lá. Agora um exemplo de um formulário inválido onde não irá produzir um arquivo de classe válido:
-
-    <code>
-        <form class="usuario" names="usuario" method="post" id="form">
-        <!-- propriedade escrita errada, o cerreto é name! -->
-        <input type="text" >
-        <!-- a propriedade name não se encontra aqui -->
-        <input type="text" id="teste" mame="email">
-        <!-- novamente, a propriedade escrita errada, o cerreto é name! -->
-        <input type="text" name "login">
-        <!-- falta o sinal de igual -->
-        <input type="text" id="teste name=senha">
-        <!-- falta fechar a aspa corretamente! -->
-        </form>
-    </code>
-
-Todos este erros e outros possíveis podem e vão gerar uma falha na produção do arquivo de classe.
-
-## img
-Onde ficam as imagens do projeto.
-
-## js
-Onde ficam os arquivos java script.
-
-## pages
-Aqui se encontram as páginas publicas como home, sobre ect...
-
-## Project
-Aqui se encontra uma breve descrição do projeto para se exibida via terminal.
-
-## Como utilizar
-A tela inicial exibe o menu. Quando baixado o projeto você deve estar dentro do diretório pelo terminal. Quando estiver dentro do projeto
-execute o comando  php index.php para dar início a tela principal conforme a imagem abaixo.
-
-<img src="img/tela-inicial.png">
-Com o comando show conforme dito antes você terá acessoa uma breve descrição do projeto via terminal. Execute: show
-
-<img src="img/tela-show.png">
-
-Com o comando make-class vocẽ vai gerar uma classe no diretório /generate_class/ para cada formulário válido dentro
-do diretório /html_form_pages/ .
-
-<img src="img/tela-comando-make-class.png">
-
-Uma vez executado o comando make-class você terá a sua disposição os arquivos de classe conforme o seu formulário.
-
-<img src="img/tela-classe-gerada.png">
+Qualquer sugestão, participação neste projeto é bem vinda.
 
 
-Bem... é isso, em breve novas atualizações.
-Att,
-Maickon Rangel
+# Version 1.4 - 10/06/2017
+- Ajustes no arquivo de configuração.
+- Configuração de página de erro 404 automática.
+- novos metedos de filtro para banco de dados
+    *save
+    *update
+    *delete
+    *find_by_nome
+    *find_by_nome_and_id
+    *find_like_by_nome('ma');
+    *find_all
+    *find_all_asc
+    *find_all_desc
+    *find_last
+    *find_first
+    *find_duplicate_by_name
+-Geração de models, views e controller separados pelo console
+-Criação de tabelas pelo console com new migration + nome_da_tabela
+-Adicionado fuñçao de auto complete no console interativo
+-Adicionado atributo $permit no model para filtrar campos vindo do $_REQUEST
+
+# Version 1.5 - 15/07/2017
+- Novos métodos na classe db_record
+    *find_all_off_dependency
+    *find_all_asc_off_dependency
+    *find_all_desc_off_dependency
+    *find_last_off_dependency
+    *find_first_off_dependency
+    *find_by_join
+- Adicionado parametro de permitir ou não a carga de dependências como objeto numa requisição do banco de dados

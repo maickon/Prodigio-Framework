@@ -1,0 +1,21 @@
+<h1>Routers</h1>
+<table class="rouers">
+	<thead>
+		<th>URL</th>
+		<th>Nome (Nome da rota)</th>
+		<th>Controller (Classe de controller)</th>
+		<th>Action (Método a ser chamado)</th>
+		<th>Params (Parametros)</th>
+	</thead>
+	<tbody>
+	<?php foreach ($_ROUTERS as $key => $value): ?>
+		<tr>
+			<td><a href="<?php echo URL_BASE.$value['name']; ?>" target="_blank"><?php echo URL_BASE.$value['name']; ?></a></td>
+			<td><?php echo $value['name']; ?></td>
+			<td><?php echo $value['controller']; ?></td>
+			<td><?php echo $value['action']; ?></td>
+			<td><?php echo isset($value['params'])?$value['params']:'Vazio'; ?></td>
+		</tr>
+	<?php endforeach ?>
+	</tbody>
+</table>

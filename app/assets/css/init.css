@@ -1,0 +1,78 @@
+.rouers{
+	width: 100%;
+	background-color: #F3f3f3;
+	margin-top: 20px;
+	text-align: center;
+}
+.rouers tbody tr:hover{
+	background-color: #F5F5F5;
+	color: #F30300;
+}
+.rouers tbody tr a{
+	text-decoration: none;
+	color: #000;
+}
+
+.navbar{
+	background-color: #F3f3f3;
+	margin: 20px;
+	padding: 20px;
+}
+
+.navbar ul{
+    padding:0px;
+    margin:0px;
+}
+
+.navbar ul li{
+	margin-right: 20px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+    display: inline;
+	list-style:none;
+	padding: 20px;
+}
+
+.navbar ul li:hover {
+	background-color: #AAAAAA;
+}	
+
+.navbar ul li a{
+	text-decoration: none;
+	color: #000000;
+}
+.navbar ul li a:hover{
+	color: #FFFFFF;
+}
+
+.body{
+	padding: 20px;
+	margin: 20px;
+	background-color: #F3F3F3;
+}
+
+.footer{
+	padding: 20px;
+	margin: 20px;
+	background-color: #F3f3f3;
+}
+
+.input{
+	width: 100%;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	border-radius: 4px;
+	height: 30px;
+}
+
+.submit{
+	margin-top: 5px;
+	margin-bottom: 5px;
+	border-radius: 4px;
+	font-size: 18px;
+	cursor: pointer;
+}
+
+.submit:hover{
+	color: red;
+}

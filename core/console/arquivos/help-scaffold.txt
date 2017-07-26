@@ -1,0 +1,8 @@
+[prodigio scaffold] => Cria o model, a view, o controller e a tabela de banco de dados
+referente ao comando.
+Exemplo:
+	prodigio scaffold::Carros nome:varchar(255) modelo:varchar(255) preco:decimal(10,2) 
+	descricao:text
+	Este comando vai criar a tabela carros com os campos que foram definidos mais id(PK) e 
+	created_at(timestamp). Estes dois campos são padra para qualquer tabela criada.
+	Com base neste modelo de tabela, o model, controller e view serão criados.

@@ -1,0 +1,28 @@
+<!--  
+	Arquivo gerado pelo Build_Core 
+	@author Maickon Rangel - maickon4developers@gmail.com
+	Prodigio Framework - 2017
+	View: register
+-->
+<h1>Documentação</h1>
+
+<form action="<?php echo URL_BASE; ?>document-register" method="post">
+    <?php if (isset($document[0]->id)): ?>
+    <input type="hidden" name="id" value="<?php echo $document[0]->id; ?>">
+    <?php endif ?>
+    <span>Título</span>
+    <input class="input" type="text" name="title" value="<?php echo isset($document[0]->id)?$document[0]->title:''; ?>">
+    <span>Documentação</span>
+    <textarea class="ckeditor" id="editor1" name="descript" style="height: 500px !important;"><?php echo isset($document[0]->id)?$document[0]->descript:''; ?></textarea>
+    <input class="submit" type="submit" value="Enviar" />
+</form>
+
+<script type="text/javascript">
+  window.onload = function() {
+    CKEDITOR.replace( 'editor1', {  uiColor: '#ccc',
+                                    enterMode: CKEDITOR.ENTER_P,
+                                    language: 'pt-br'        
+                                  } 
+                    );
+  };
+</script>

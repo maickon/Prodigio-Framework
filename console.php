@@ -2,4 +2,4 @@
 
 require 'config/init.php';
 
-new Routes_Core;
+new Console_Core;

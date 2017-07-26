@@ -1,0 +1,61 @@
+USER_PAGE_USERS_TITLE::Usuários
+USER_META_DESCRIPTION_PAGE_USERS::Usuários do Help RPG.
+USER_META_KEYWORDS_PAGE_USERS::Cadastro de usuários, listagem de usuários, usuários, novos usuários
+USER_MSG_ACTIVE_LINK::Link de ativação de conta:
+USER_MSG_ACTIVE::Ativar minha conta.
+USER_MSG_SUCCESS::Cadastro realizado com sucesso!
+USER_MSG_WELLCOME::Seja bem vindo ao Help RPG
+USER_MSG_PASSWORD::Sua senha:
+USER_MSG_CONFIRM_PASSWORD::Confirmar sua senha:
+USER_MSG_DIFF_PASSWORD::As senhas estão diferentes
+USER_MSG_MAIL::Seu email:
+USER_MSG_INSTRUCTION_1::Você pode preencher o restante do cadastro em:
+USER_MSG_INSTRUCTION_2::Com esta conta você pode cadastrar aventuras, itens mágicos, personagens, contos, fazer amigos, utilizar nossos utilitários e muito mais. Agradeço por fazer parte do Help RPG.
+USER_MSG_INSTRUCTION_3::Clique no link abaixo para ativar a sua conta. Após isso é só fazer o login.
+USER_MSG_ATT::Att,
+USER_MSG_DISABLE_ACCOUNT::Quando a sua conta for dasativada você não terá mais acesso ao painel de controle do Help RPG. Sua conta não estará mais na lista de usuários ativos mas seus cadastros poderão ser encontrados por outros usuários. A sua página de profile ainda poderá ser vista pelos demais usuários. <br>Após clicar no botão abaixo a sessão será encerrada e você será redirecionado para a página principal do Help RPG. <br>Tente recuperar a sua senha e a sua conta poderá ser reativada.
+USER_MSG_CREATE_CONTACT::<a href="http:www.helprpg.com.br/painel/profile/1">Maickon Rangel</a> - Criador do help RPG
+USER_LABEL_MALE::Masculino
+USER_LABEL_FEME::Feminino
+USER_LABEL_YES::Sim
+USER_LABEL_NO::Não
+USER_LABEL_NAME::Nome
+USER_LABEL_LEVEL::Nível
+USER_LABEL_STARS::Estrelas
+USER_LABEL_COUNTRY::País
+USER_LABEL_XP::Xp
+USER_LABEL_ABOUT::Sobre
+USER_LABEL_EDIT::Editar
+USER_LABEL_CHANGE_PASSWORD::Alterar senha
+USER_LABEL_DELETE_ACOUNT::Deletar conta
+USER_LABEL_DISABLE_ACOUNT::Desativar conta
+USER_LABEL_LOOK_ACTIVE::Ver atividades
+USER_LABEL_LOOK_LAST_POSTS::Ver últimas postagens
+USER_MSG_PAGE_LIST_USERS::PESSOAS QUE ESTÃO NO HELP RPG
+USER_MSG_SOCIAL_MEDIA::Mídias socias
+USER_SEX::Sexo
+USER_AGE::Idade
+USER_YEARS::anos
+USER_COUNTRY::País
+USER_CITY::Cidade
+USER_STATE::Estado
+USER_FAVORITE_CLASS::Classe preferida
+USER_FAVORITE_RACE::Raça preferida
+USER_IS_MASTER::É mestre e tem experiência?
+USER_FAVORITE_PHRASE::Uma frase favorita
+USER_FAVORITE_RPGS::Rpgs preferido
+USER_LAST_POSTS::Postagens
+USER_LINK_SMALL_CAP::Link Capa Pequena
+USER_DATE_OF_BIRTH::Data de nascimento
+USER_YOUR_COUNTRY::Seu país
+USER_YOUR_HOMETOWN::Sua cidade natal
+USER_IS_MASTER_QUEST::Você mestra partidas de RPG e tem experiência?
+USER_URL_PROFILE::Url para foto de perfil
+USER_URL_CAP::Url para foto de capa
+USER_URL_FACEBOOK::Url do seu Facebook
+USER_URL_GOOGLE::Url do seu Google+
+USER_URL_TWITTER::Url do seu Twitter
+USER_URL_BLOG::Url de algum blog seu sobre RPG
+USER_URL_PERSONAL::Url de um site sobre você
+USER_EMAIL::Email
+USER_DESCRIPT::Descrição

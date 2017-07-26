@@ -1,0 +1,44 @@
+Comandos básicos
+[new model] => Cria uma novo modelo. Gera a classe e a respectiva tabela no DB.
+Exemplos: 
+	new model::Usuarios nome:varchar(255) login:varchar(255) email:varchar(255)
+	new model::Livros nome:varchar(255) isbn:integer preco:decimal(10,2)
+---------------------------------------------------------------------------------------------------
+[new controller] => Cria uma nova classe controller. Voce pode passar metodos como parametro.
+Os metodos seguem o padrão (function:nome do metodo + parametros). Se quiser, pode chamar
+o comando crud:ok. Com isso metodos base como index (create, update e delete) 
+já serão criados automaticamente.
+Exemplos:
+	new controller::Usuarios crud:ok function:relatorio() function:calcular($valor)
+	new controller::Livros function:calcular_frete()
+---------------------------------------------------------------------------------------------------
+[new view] => Cria um arquivo de view para cada método no seu controller. Os arquivos 
+vão ficar dentro de uma pasta com o nome do módulo.
+Exemplo: 
+	new view::Livros //cria a pasta livros/ dentro de view com um arquivo correspondente
+para cada método do controller.
+---------------------------------------------------------------------------------------------------
+[del model] => Apaga um arquivo de classe de modelo.
+Exemplo:
+	del model::Livros //vai apagar o arquivo em app/models/livros.php
+---------------------------------------------------------------------------------------------------
+[del controller] => Apaga um arquivo de classe de controller.
+Exemplo:
+	del controller::Livros //vai apagar o arquivo em app/controllers/livros.php
+---------------------------------------------------------------------------------------------------
+[del view] => Apaga a pasta com todos os arquivos dentro da view selecionada ou apaga apenas um
+único ou mais arquivos dentro do modulo selecionado.
+Exemplos:
+	del view::Livros //vai apagar a pasta em app/views/livros com tudo que estiver dentro.
+	del view::Livros index //vai apagar o arquivo index.phtml dentro app/views/livros/index.phtml
+	del view::Livros index show //apaga os arquivos index.phtml e show.phtml
+---------------------------------------------------------------------------------------------------
+[prodigio scaffold] => Cria o model, a view, o controller e a tabela de banco de dados
+referente ao comando.
+Exemplo:
+	prodigio scaffold::Carros nome:varchar(255) modelo:varchar(255) preco:decimal(10,2) 
+	descricao:text
+	Este comando vai criar a tabela carros com os campos que foram definidos mais id(PK) e 
+	created_at(timestamp). Estes dois campos são padra para qualquer tabela criada.
+	Com base neste modelo de tabela, o model, controller e view serão criados.
+---------------------------------------------------------------------------------------------------			
