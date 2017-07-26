@@ -27,18 +27,18 @@ Qualquer sugestão, participação neste projeto é bem vinda.
 - Ajustes no arquivo de configuração.
 - Configuração de página de erro 404 automática.
 - novos metedos de filtro para banco de dados
-    *save
-    *update
-    *delete
-    *find_by_nome
-    *find_by_nome_and_id
-    *find_like_by_nome('ma');
-    *find_all
-    *find_all_asc
-    *find_all_desc
-    *find_last
-    *find_first
-    *find_duplicate_by_name
+    * save
+    * update
+    * delete
+    * find_by_nome
+    * find_by_nome_and_id
+    * find_like_by_nome('ma');
+    * find_all
+    * find_all_asc
+    * find_all_desc
+    * find_last
+    * find_first
+    * find_duplicate_by_name
 -Geração de models, views e controller separados pelo console
 -Criação de tabelas pelo console com new migration + nome_da_tabela
 -Adicionado fuñçao de auto complete no console interativo
@@ -46,10 +46,10 @@ Qualquer sugestão, participação neste projeto é bem vinda.
 
 # Version 1.5 - 15/07/2017
 - Novos métodos na classe db_record
-    *find_all_off_dependency
-    *find_all_asc_off_dependency
-    *find_all_desc_off_dependency
-    *find_last_off_dependency
-    *find_first_off_dependency
-    *find_by_join
+    * find_all_off_dependency
+    * find_all_asc_off_dependency
+    * find_all_desc_off_dependency
+    * find_last_off_dependency
+    * find_first_off_dependency
+    * find_by_join
 - Adicionado parametro de permitir ou não a carga de dependências como objeto numa requisição do banco de dados
