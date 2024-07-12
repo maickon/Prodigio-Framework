@@ -12,4 +12,4 @@ O projeto é baseado no modelo MVC e oferecer recursos como classes de abstraç�
 
 Para usá-lo você deve ter alguma familiaridade com o conceito de MVC. Caso já tenha mexido com o rails, saiba que esta aplicação tem inspiração nele.
 
-Em breve irie criar uma descrição sobre como usar em maiores detalhes...
+Em breve irie criar uma descrição sobre como usar em maiores detalhes neste endereço https://maickon.github.io/Prodigio-Framework/
