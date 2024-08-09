@@ -126,16 +126,10 @@
         <section class="section">
             <h2>Instalação</h2>
             <p>O código fonte está disponível no GitHub. Para instalar e configurar a API, siga as instruções fornecidas no repositório.</p>
-            
         </section>
-
-        
     </div>
 
-    <footer>
-        <p class="paragraph">&copy; 2024 Prodígio Framework. <?= VESION ?> - Desenvolvido por Maickon Rangel</p>
-        <p class="paragraph"><a href="https://mksoft.com.br" target="_blank">mksoft.com.br</a></p>
-    </footer>
+    <?php include component('footer') ?>
 
 </body>
 

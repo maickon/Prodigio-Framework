@@ -3,9 +3,12 @@
 namespace core;
 
 class TemplateTags {
-
+    
     public function __call($tag, $properties = []) {
         $tagString = "<{$tag}";
+        $validAttributes = [
+            'class', 'id', 'style', 'data-', 'href', 'src', 'alt', 'title', 'name', 'type', 'value'
+        ];
 
         if (!empty($properties[0]) && is_array($properties[0])) {
             if ($this->isAssoc($properties[0])) {
@@ -18,7 +21,14 @@ class TemplateTags {
                 }
             }
         } elseif (!empty($properties)) {
-            $tagString .= " {$properties[0]} ";
+            $property = $properties[0];
+            if ($this->isValidAttribute($property, $validAttributes)) {
+                $tagString .= " {$property} ";
+            } else {
+                $tagString .= ">{$property}</{$tag}>";
+                echo $tagString;
+                return;
+            }
         }
 
         $tagString .= ">";
@@ -44,5 +54,14 @@ class TemplateTags {
             default:
                 echo $string ;
         }
+    }
+
+    private function isValidAttribute($property, $validAttributes) {
+        foreach ($validAttributes as $validAttribute) {
+            if (strpos($property, $validAttribute) !== false || strpos($property, 'data-') === 0) {
+                return true;
+            }
+        }
+        return false;
     }
 }

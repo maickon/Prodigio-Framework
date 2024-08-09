@@ -16,4 +16,6 @@ class HomeController extends Controller {
 	public function docs() {
 		$this->view('docs');	
 	}
+
+	
 }

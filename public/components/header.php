@@ -20,7 +20,7 @@ $html->header();
 		$html->b;
 		$html->print('ork');
 		$html->span('class="version"');
-			$html->print('V1.2');
+			$html->print(VESION);
 		$html->span;
 	$html->h1;
 	$html->p();

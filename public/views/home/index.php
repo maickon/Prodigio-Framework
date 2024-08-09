@@ -22,15 +22,15 @@
        	<p>
        		Baseado no modelo MVC, oferece recursos como, classes de abstração de dados, configuração de rotas e outras ferramentas úteis para criar projetos de forma rápida sem muitas depenências.
        	</p>
+    
+        <?php include component('exemple') ?>
+
         <div class="buttons">
             <a href="/docs">Iniciar</a>
             <a href="/tutorial">Tutorial</a>
         </div>
     </div>
  
-    <footer>
-    	<p>Desenvolvido por <a href="https://mksoft.com.br" target="_blank">Maickon Rangel</a></p>
-        <p>&copy; 2017-<?= date("Y") ?> Prodígio Framework. <?= VESION ?></p>
-    </footer>
+    <?php include component('footer') ?>
 </body>
 </html>
