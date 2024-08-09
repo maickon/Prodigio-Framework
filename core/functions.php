@@ -1,5 +1,9 @@
 <?php
 
+function component($component) {
+    return __DIR__ . '/../public/components/'.$component.'.php';
+}
+
 function dd($value) {
     echo '<pre style="background-color: #000; color: #fff; padding: 10px; font-size: 14px; font-family: Menlo, Monaco, Consolas, monospace; line-height: 1.4;">';
 

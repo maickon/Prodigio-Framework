@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="/assets/css/home.css">
 </head>
 <body>
-	<?php $header ?>
+	<?php include component('header') ?>
     <!-- <header>
         <h1><b>P</b>rod<b>í</b>gio <b>F</b>rame<b>w</b>ork<span class="version">V1.2</span></h1>
         <p>Construa seu próximo projeto com facilidade</p>
@@ -27,9 +27,10 @@
             <a href="/tutorial">Tutorial</a>
         </div>
     </div>
+ 
     <footer>
     	<p>Desenvolvido por <a href="https://mksoft.com.br" target="_blank">Maickon Rangel</a></p>
-        <p>&copy; 2017-<?= date("Y") ?> Prodígio Framework. V1.2</p>
+        <p>&copy; 2017-<?= date("Y") ?> Prodígio Framework. <?= VESION ?></p>
     </footer>
 </body>
 </html>
