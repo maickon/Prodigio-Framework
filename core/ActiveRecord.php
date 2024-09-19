@@ -5,12 +5,16 @@ namespace core;
 use core\Connection;
 use \PDO;
 use \PDOException;
+use \stdClass;
 
 class ActiveRecord {
 
     protected $conn;
     protected $table_name;
     protected $columns = [];
+    private $query;
+    private $aliases;
+    private $foreignKeys = [];
 
     public function __construct() {
         $connection = new Connection();
@@ -23,74 +27,126 @@ class ActiveRecord {
         }
     }
 
-    private function fk($result) {
-        if($result) {
-            foreach ($this->columns as $column) {
-                if (preg_match("/^(.*)_id$/", $column, $matches)) {
-                    $related_table = $matches[1];
-                    $plural_table = $related_table.'s';
-                    $sql = "SELECT * FROM $plural_table WHERE id = :related_id";
+    private function getColumnsFromTable($table) {
+        $stmt = $this->conn->query("SHOW COLUMNS FROM $table");
+        $columns = $stmt->fetchAll(PDO::FETCH_COLUMN);
+        return $columns;
+    }
 
-                    if(is_array($result) && isset($result[0])) {
-                        $last = null;
-                        foreach ($result as $key => $data) {
-                            if ($last != null && $last['id'] == $data[$column]) {
-                                $result[$key][$plural_table] = $last;
-                            } else {
-                                $substmt = $this->conn->prepare($sql);
-                                $substmt->bindParam(':related_id', $data[$column]);
-                                $substmt->execute();
-                                $related_data = $substmt->fetch(PDO::FETCH_ASSOC);
-                                $last = $related_data;
-                                $result[$key][$plural_table] = $related_data;
-                            }
-                        }
-                    } else {
-                        $substmt = $this->conn->prepare($sql);
-                        $substmt->bindParam(':related_id', $result[$column]);
-                        $substmt->execute();
-                        $related_data = $substmt->fetch(PDO::FETCH_ASSOC);
-                        $result[$related_table] = $related_data;
-                    }
+    private function getRelatedTable($attribute) {
+        $relatedTable = rtrim($attribute, '_id') . 's';
+        if (property_exists($this, 'foreign_relationship')) {
+            $relatedTable = $this->getforeignRelationship()[$attribute];
+        }
+        return $relatedTable;
+    }
+
+    private function fk() {
+        $joins = [];
+        foreach ($this->getAttributes() as $attribute) {
+            if (strpos($attribute, '_id') !== false) {
+                // Identifica a tabela relacionada
+                $relatedTable = $this->getRelatedTable($attribute);
+
+                // Seleciona todos os campos da tabela relacionada com aliases
+                $columns = $this->getColumnsFromTable($relatedTable);
+                foreach ($columns as $column) {
+                    $alias = $relatedTable . '_' . $column;
+                    $this->query .= ", $relatedTable.$column AS $alias";
                 }
+
+                // Adiciona o join na consulta
+                $joins[] = "LEFT JOIN $relatedTable ON $this->table_name.$attribute = $relatedTable.id";
+                $this->foreignKeys[$attribute] = rtrim($attribute, '_id');
+            }
+        }
+        
+        return $joins;
+    }
+
+
+    private function fkPrepareAssoc($results) {
+        foreach ($results as $result) {
+            foreach ($this->foreignKeys as $key => $alias) {
+                // Cria o objeto relacionado, removendo o campo "_id" e adicionando os dados relacionados
+                $result->$alias = new stdClass();
+                $relatedTable = $this->getRelatedTable($key);
+                $columns = $this->getColumnsFromTable($relatedTable);
+                foreach ($columns as $index => $column) {
+                    $attr = "{$relatedTable}_{$column}";
+                    $result->$alias->$column = $result->$attr;
+                    unset($result->$attr);
+                }
+                
+                unset($result->$key); // Remove o campo de chave estrangeira (ex: level_id)
+                
             }
         }
 
-        return $result;
-    }
-
-    public function find($id) {
-        try {
-            $stmt = $this->conn->prepare("SELECT * FROM $this->table_name WHERE id = :id");
-            $stmt->bindParam(':id', $id);
-            $stmt->execute();
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            return $this->fk($result);
-        } catch (PDOException $e) {
-            exit($e->getMessage());
-        }
+        return $results;
     }
 
     public function findAll() {
         try {
-            $stmt = $this->conn->prepare("SELECT * FROM $this->table_name");
+            // Inicia a consulta principal
+            $this->query = "SELECT $this->table_name.*";
+            $joins = $this->fk(); // Adiciona os JOINs e os aliases
+            $this->query .= " FROM $this->table_name " . implode(' ', $joins);
+            
+            // Prepara e executa a consulta
+            $stmt = $this->conn->prepare($this->query);
             $stmt->execute();
-            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            return $this->fk($result);
+            // Processa os resultados, ajustando as chaves estrangeiras
+            $results = $this->fkPrepareAssoc($stmt->fetchAll(PDO::FETCH_OBJ));
+            return $results;
+
         } catch (PDOException $e) {
             exit($e->getMessage());
         }
     }
+
+
+    public function find($id) {
+        try {
+            // Inicia a consulta principal
+            $this->query = "SELECT $this->table_name.*";
+            
+            // Adiciona os JOINs e os aliases para as chaves estrangeiras
+            $joins = $this->fk();
+            $this->query .= " FROM $this->table_name " . implode(' ', $joins);
+            $this->query .= " WHERE $this->table_name.id = :id"; // Filtro pelo ID fornecido
+            
+            // Prepara e executa a consulta
+            $stmt = $this->conn->prepare($this->query);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
+            
+            // Pega o resultado
+            $result = $stmt->fetch(PDO::FETCH_OBJ);
+            
+            if ($result) {
+                // Processa o resultado, ajustando as chaves estrangeiras
+                $results = $this->fkPrepareAssoc([$result]);
+                return $results[0]; // Retorna o primeiro (e único) resultado
+            } else {
+                return null; // Caso não encontre o registro
+            }
+            
+        } catch (PDOException $e) {
+            exit($e->getMessage());
+        }
+    }
+
 
     public function findWithDateComparison($columName, $comparisonOperator, $date) {
         try {
             $stmt = $this->conn->prepare("SELECT * FROM $this->table_name WHERE $columName $comparisonOperator :date");
             $stmt->bindParam(':date', $date);
             $stmt->execute();
-            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $result = $stmt->fetchAll(PDO::FETCH_OBJ);
 
-            return $this->fk($result);
+            return $result;
         } catch (PDOException $e) {
             exit($e->getMessage());
         }
@@ -103,8 +159,8 @@ class ActiveRecord {
             $stmt->bindParam(':value', $value);
 
             if ($stmt->execute()) {
-                $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                return $this->fk($result);
+                $result = $stmt->fetchAll(PDO::FETCH_OBJ);
+                return $result;
             } else {
                 return false;
             }
@@ -137,8 +193,8 @@ class ActiveRecord {
             $stmt = $this->conn->prepare("SELECT * FROM $this->table_name WHERE $whereClause");
             
             if ($stmt->execute($params)) {
-                $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                return $this->fk($result);
+                $result = $stmt->fetchAll(PDO::FETCH_OBJ);
+                return $result;
             } else {
                 return false;
             }

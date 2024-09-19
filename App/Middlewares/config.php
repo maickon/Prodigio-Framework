@@ -5,7 +5,7 @@ use core\Router;
 
 $middlewares = [
 	'hasLogin' => Middleware::middleware('hasLogin'),
-	'isAdmin' => Middleware::middleware('isAdmin'),
+	'isAdmin' => Middleware::middleware('isAdmin')
 ];
 
 function rumMiddlewares($controller, $my_middlewares, $destiny) {

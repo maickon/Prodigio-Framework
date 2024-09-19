@@ -16,6 +16,9 @@
     </header> -->
     <div class="content">
         <h2>Bem-vindo ao <b class="logo">Prodigio Framework</b></h2>
+
+        <?php include component('alerts') ?>
+        
         <p>
             Prodigio Framework é um framework simples e acessível, ideal para iniciantes. Nascido da reunião de utilitários desenvolvidos ao longo do tempo, este projeto visa facilitar o aprendizado e o desenvolvimento de aplicações.
         </p>

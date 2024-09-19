@@ -7,11 +7,11 @@ class Controller {
     protected $view;
 
     public function __construct() {
-        // $this->view = new View();
+        $this->view = new View();
     }
 
     protected function view($template, $data = []) {
-        (new View())->render($template, $data);
+        $this->view->render($template, $data);
     }
 
     protected function redirect($url) {

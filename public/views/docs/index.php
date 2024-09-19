@@ -99,6 +99,32 @@
             margin: 0;
             margin-top: 10px;
         }
+        .menu {
+            background-color: #f0f0f0;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .menu-item {
+            cursor: pointer;
+            padding: 5px;
+            margin: 5px 0;
+            font-weight: bold;
+        }
+        
+        .submenu {
+            display: none;
+            padding-left: 20px;
+        }
+        
+        .submenu-item {
+            padding: 3px;
+        }
+        .section {
+            margin-bottom: 40px;
+            padding-top: 60px; /* Espaço para o cabeçalho fixo */
+            margin-top: -60px; /* Compensar o padding-top */
+        }
     </style>
 </head>
 
@@ -111,26 +137,95 @@
 
     <div class="container">
 
-        <section class="section">
-            <h2>Introdução</h2>
-            <p>O conceito deste projeto é criar um framework que seja simples o bastante para que iniciantes consigam entende-lo. Além disso, o projeto é uma coleção ideias que vim reunindo ao longo dos anos de desenvolvimento web.</p>
-            <p>O projeto é baseado no modelo MVC e oferecer recursos como classes de abstração de dados, configuração de rotas, views e entre outras ferramentas que buscam ajudar no desenvolvimento do projeto.</p>
+    <div class="menu">
+            <div class="menu-item" onclick="scrollToSection('core')">Core</div>
+            <div class="submenu" id="core-submenu">
+                <div class="submenu-item" onclick="scrollToSection('configuracao')">Configuração</div>
+                <div class="submenu-item" onclick="scrollToSection('roteamento')">Roteamento</div>
+                <div class="submenu-item" onclick="scrollToSection('controladores')">Controladores</div>
+            </div>
+            
+            <div class="menu-item" onclick="scrollToSection('models')">Modelos</div>
+            <div class="submenu" id="models-submenu">
+                <div class="submenu-item" onclick="scrollToSection('abstracao-dados')">Abstração de Dados</div>
+                <div class="submenu-item" onclick="scrollToSection('validacao')">Validação</div>
+            </div>
+            
+            <div class="menu-item" onclick="scrollToSection('views')">Visualizações</div>
+            <div class="submenu" id="views-submenu">
+                <div class="submenu-item" onclick="scrollToSection('templates')">Templates</div>
+                <div class="submenu-item" onclick="scrollToSection('componentes')">Componentes</div>
+            </div>
+            
+            <div class="menu-item" onclick="scrollToSection('utils')">Utilitários</div>
+            <div class="submenu" id="utils-submenu">
+                <div class="submenu-item" onclick="scrollToSection('helpers')">Helpers</div>
+                <div class="submenu-item" onclick="scrollToSection('bibliotecas')">Bibliotecas</div>
+            </div>
+        </div>
+        
+        <!-- Seções de conteúdo -->
+        <section id="core" class="section">
+            <h2>Core</h2>
+            <p>O núcleo do Prodígio Framework, responsável pelas funcionalidades fundamentais do sistema.</p>
+            
+            <h3 id="configuracao">Configuração</h3>
+            <p>Explica como configurar o framework, incluindo configurações de banco de dados, ambiente e outras opções globais.</p>
+            
+            <h3 id="roteamento">Roteamento</h3>
+            <p>Detalha o sistema de roteamento, como definir rotas e mapear URLs para controladores e ações.</p>
+            
+            <h3 id="controladores">Controladores</h3>
+            <p>Descreve a estrutura e funcionamento dos controladores, responsáveis por processar as requisições e preparar as respostas.</p>
         </section>
-
-        <section class="section">
-            <h2>Como usar</h2>
-            <p>Para usá-lo você deve ter alguma familiaridade com o conceito de MVC. Caso já tenha mexido com o rails, saiba que esta aplicação tem inspiração nele.</p>
-            <p>A sua documentação busca explicar de forma geral o objetivo de cada módulo do projeto. Ele não busca explicar em detalhes cada linha de código. O intuito é fazer com que você tenha uma ideia geral e por análise própria do código, consiga entender o que está sendo feito.</p>
+        
+        <section id="models" class="section">
+            <h2>Modelos</h2>
+            <p>Camada de abstração de dados e lógica de negócios do framework.</p>
+            
+            <h3 id="abstracao-dados">Abstração de Dados</h3>
+            <p>Explica como trabalhar com modelos para interagir com o banco de dados e encapsular a lógica de negócios.</p>
+            
+            <h3 id="validacao">Validação</h3>
+            <p>Detalha os métodos de validação de dados disponíveis nos modelos para garantir a integridade dos dados.</p>
         </section>
-
-        <section class="section">
-            <h2>Instalação</h2>
-            <p>O código fonte está disponível no GitHub. Para instalar e configurar a API, siga as instruções fornecidas no repositório.</p>
+        
+        <section id="views" class="section">
+            <h2>Visualizações</h2>
+            <p>Responsável pela apresentação e interface do usuário no framework.</p>
+            
+            <h3 id="templates">Templates</h3>
+            <p>Explica o sistema de templates, como criar e usar layouts e views para renderizar o conteúdo HTML.</p>
+            
+            <h3 id="componentes">Componentes</h3>
+            <p>Descreve como criar e utilizar componentes reutilizáveis para construir interfaces mais complexas.</p>
+        </section>
+        
+        <section id="utils" class="section">
+            <h2>Utilitários</h2>
+            <p>Ferramentas e funções auxiliares para facilitar o desenvolvimento.</p>
+            
+            <h3 id="helpers">Helpers</h3>
+            <p>Detalha as funções auxiliares disponíveis para tarefas comuns, como manipulação de strings, datas e arrays.</p>
+            
+            <h3 id="bibliotecas">Bibliotecas</h3>
+            <p>Explica as bibliotecas integradas ao framework e como utilizá-las em seus projetos.</p>
         </section>
     </div>
 
     <?php include component('footer') ?>
-
+    
+    <script>
+        function toggleSubmenu(id) {
+            var submenu = document.getElementById(id + '-submenu');
+            submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+        }
+        
+        function scrollToSection(id) {
+            var element = document.getElementById(id);
+            element.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+        }
+    </script>
 </body>
 
 </html>

@@ -194,7 +194,7 @@ class Validator {
 
     // Método de validação para verificar se o campo contém apenas letras, números, hífens e sublinhados
     // $rules = [
-    //     'username' => 'alpha_dash',
+    //     'username' => 'alphaDash',
     // ];
     protected function validateAlphaDash($field) {
         $value = $this->data[$field];
@@ -208,7 +208,7 @@ class Validator {
 
     // Método de validação para verificar se o campo contém apenas letras e números
     // $rules = [
-    //     'password' => 'alpha_num',
+    //     'password' => 'alphaNum',
     // ];
     protected function validateAlphaNum($field) {
         $value = $this->data[$field];
@@ -441,44 +441,54 @@ class Validator {
     // $rules = [
     //     'document_file' => 'file',
     // ];
+
     protected function validateFile($field) {
-        if(is_array($this->data[$field])) {
-            foreach ($this->data[$field] as $key => $file) {
-                if($key == 'tmp_name' && is_array($file)) {
-                    foreach ($file as $tmp_name) {
-                        if (isset($tmp_name) && is_uploaded_file($tmp_name)) {
-                            return;
-                        }
-                        
-                        $this->addError($field, 'O campo ' . $field . ' deve ser um arquivo.');
+        if (!isset($this->data[$field])) {
+            $this->addError($field, "O campo {$field} é obrigatório.");
+            return;
+        }
+
+        $file = $this->data[$field];
+
+        if (is_array($file)) {
+            // Caso de upload múltiplo
+            if (isset($file['tmp_name']) && is_array($file['tmp_name'])) {
+                foreach ($file['tmp_name'] as $index => $tmp_name) {
+                    if (empty($tmp_name) || !is_uploaded_file($tmp_name)) {
+                        $this->addError($field, "O arquivo #{$index} em {$field} não é válido.");
                     }
-                    
+                }
+            } else {
+                // Caso de upload único com array de informações
+                if (empty($file['tmp_name']) || !is_uploaded_file($file['tmp_name'])) {
+                    $this->addError($field, "O campo {$field} deve conter um arquivo válido.");
                 }
             }
-        } else {
-            if (isset($this->data[$field]) && is_uploaded_file($this->data[$field])) {
-                return;
+        } elseif (is_string($file)) {
+            // Caso de upload único com caminho do arquivo
+            if (empty($file) || !is_uploaded_file($file)) {
+                $this->addError($field, "O campo {$field} deve ser um arquivo válido.");
             }
-
-            $this->addError($field, 'O campo ' . $field . ' deve ser um arquivo.');
+        } else {
+            $this->addError($field, "O campo {$field} contém um valor inválido.");
         }
     }
 
     // Método de validação para verificar o tipo MIME do arquivo
     // $rules = [
-    //     'document_file' => 'file|mimetypes:application/msword,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-    //     'image_file' => 'file|mimetypes:image/jpeg,image/png,image/gif,image/bmp',
-    //     'audio_file' => 'file|mimetypes:audio/mpeg,audio/wav,audio/ogg',
-    //     'video_file' => 'file|mimetypes:video/mp4,video/quicktime,video/x-msvideo',
-    //     'pdf_file' => 'file|mimetypes:application/pdf',
-    //     'excel_file' => 'file|mimetypes:application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-    //     'csv_file' => 'file|mimetypes:text/csv,application/vnd.ms-excel',
-    //     'zip_file' => 'file|mimetypes:application/zip,application/x-compressed-zip',
-    //     'powerpoint_file' => 'file|mimetypes:application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation',
-    //     'json_file' => 'file|mimetypes:application/json',
-    //     'xml_file' => 'file|mimetypes:text/xml,application/xml',
-    //     'txt_file' => 'file|mimetypes:text/plain',
-    //     'html_file' => 'file|mimetypes:text/html',
+    //     'document_file' => 'file|mimeTypes:application/msword,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    //     'image_file' => 'file|mimeTypes:image/jpeg,image/png,image/gif,image/bmp',
+    //     'audio_file' => 'file|mimeTypes:audio/mpeg,audio/wav,audio/ogg',
+    //     'video_file' => 'file|mimeTypes:video/mp4,video/quicktime,video/x-msvideo',
+    //     'pdf_file' => 'file|mimeTypes:application/pdf',
+    //     'excel_file' => 'file|mimeTypes:application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    //     'csv_file' => 'file|mimeTypes:text/csv,application/vnd.ms-excel',
+    //     'zip_file' => 'file|mimeTypes:application/zip,application/x-compressed-zip',
+    //     'powerpoint_file' => 'file|mimeTypes:application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation',
+    //     'json_file' => 'file|mimeTypes:application/json',
+    //     'xml_file' => 'file|mimeTypes:text/xml,application/xml',
+    //     'txt_file' => 'file|mimeTypes:text/plain',
+    //     'html_file' => 'file|mimeTypes:text/html',
     // ];
 
     protected function validateMimeTypes($field, $allowedMimeTypes) {
@@ -518,7 +528,7 @@ class Validator {
 
     // Método de validação para verificar o tamanho máximo de um arquivo em MB
     // $rules = [
-    //     'document_file' => 'file|max_file_size:5', // 5 MB de tamanho máximo
+    //     'document_file' => 'file|maxFileSize:5', // 5 MB de tamanho máximo
     // ];
     protected function validateMaxFileSize($field, $parameters) {
         if(is_array($this->data[$field])) {
@@ -545,7 +555,6 @@ class Validator {
 
             $maxSizeInMB = (float) $parameters;
             $maxFileSizeInBytes = $maxSizeInMB * 1024 * 1024; // Convertendo MB para bytes
-
             if (filesize($size) > $maxFileSizeInBytes) {
                 $this->addError($field, 'O arquivo ' . $this->data[$field] . ' deve ter no máximo $maxSizeInMB MB.');
             }

@@ -74,12 +74,13 @@ class Minifier {
     }
 
     private function minifyJS($content) {
-        $content = preg_replace('!/\*.*?\*/!s', '', $content);
-        $content = preg_replace('/\n\s*\n/', "\n", $content);
-        $content = preg_replace('/[\n\r \t]/', ' ', $content);
-        $content = preg_replace('/ +/', ' ', $content);
-        $content = preg_replace('/ ?([,:;{}]) ?/', '$1', $content);
-        $content = preg_replace('/;}/', '}', $content);
-        return trim($content);
+        $content = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $content);
+        $content = preg_replace('/\/\/[^\n\r]*[\n\r]/', '', $content);
+        $content = preg_replace('/[^\S\n]+/', ' ', $content);
+        $content = preg_replace('/\s*([\+\-])\s*/', '$1', $content);
+        $content = preg_replace('/^\s+|\s+$/m', '', $content);
+        $content = preg_replace('/;}/', '}', $content);       
+        $content = preg_replace('/^\n*/m', '', $content);
+        return $content;
     }
 }

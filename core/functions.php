@@ -1,7 +1,51 @@
 <?php
 
 function component($component) {
-    return __DIR__ . '/../public/components/'.$component.'.php';
+    return dirname(__DIR__) . DIRECTORY_SEPARATOR . PUBLIC_FOLDER_NAME . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . $component . '.php';
+}
+
+function element($component) {
+    return dirname(__DIR__) . DIRECTORY_SEPARATOR . PUBLIC_FOLDER_NAME . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . $component . '.php';
+}
+
+function value($value, $key) {
+    if (is_array($value) && isset($value[$key])) { 
+        return $value[$key];
+    } else if (is_object($value)) {
+        return $value->$key;
+    } else {
+        return '';
+    }
+}
+
+function selected($value1, $data, $key) {
+    if (is_array($value1) && isset($data[$key]) && ($value1 == $data[$key])) { 
+        return 'selected';
+    } else if (is_object($data) && ($value1 == $data->$key)) {
+        return 'selected';
+    } else {
+        return '';
+    }
+}
+
+function formdata() {
+    return isset($_SESSION['formdata']) ?? [];
+}
+
+function errors() {
+    return isset($_SESSION['errors']) ?? [];
+}
+
+function success() {
+    return isset($_SESSION['success']) ?? [];
+}
+
+function flash() {
+    return $_SESSION['flash'];
+}
+
+function user($key) {
+    return isset($_SESSION['user'][$key]) ? $_SESSION['user'][$key] : '';
 }
 
 function dd($value) {

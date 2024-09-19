@@ -10,9 +10,20 @@ class Request {
     public function __construct() {
         $this->params = $_REQUEST;
         $this->method = $_SERVER['REQUEST_METHOD'];
-        $this->params = array_merge($_REQUEST, $_FILES);
+        if($this->hasFile()) {
+            $this->params = array_merge($_REQUEST, $_FILES);
+        }
     }
     
+    public function hasFile() {
+        foreach ($_FILES as $file) {
+            if ($file['error'] !== UPLOAD_ERR_NO_FILE) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public function redirect($url) {
         header("Location: {$url}");
     }
