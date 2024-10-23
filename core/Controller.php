@@ -2,16 +2,23 @@
 
 namespace core;
 
+use core\View;
+use core\Request;
+use App\Helpers\Helper;
+
 class Controller {
-    
-    protected $view;
+
+    protected $request;
+    protected $helper;
 
     public function __construct() {
-        $this->view = new View();
+        $this->helper = new Helper();
+        $this->request = new Request();
     }
 
     protected function view($template, $data = []) {
-        $this->view->render($template, $data);
+        $view = new View();
+        $view->render($template, $data);
     }
 
     protected function redirect($url) {

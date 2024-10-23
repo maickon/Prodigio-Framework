@@ -68,7 +68,7 @@ class Helper {
                         break;
                     
                     // Tratamento para documentos (Word, Excel, etc.)
-                    case preg_match('/(doc|docx|xls|xlsx|txt)$/i', $ext):
+                    case preg_match('/(doc|docx|xls|xlsx|txt|webp)$/i', $ext):
                         move_uploaded_file($request[$field]['tmp_name'][$key], $path . $newfile_name);
                         break;
 
@@ -147,5 +147,15 @@ class Helper {
             $response = $file->deleteFile($image);
         }
         return $response;
+    }
+
+    public function getBrStates() {
+        require __DIR__ . '/../Temp/php/cities-states.php';
+        return $_STATES;
+    }
+
+    public function getBrCities() {
+        require __DIR__ . '/../Temp/php/cities-states.php';
+        return $_CITIES;
     }
 }

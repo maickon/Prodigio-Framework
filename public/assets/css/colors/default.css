@@ -1,0 +1,23 @@
+.lms_table_active tbody tr:nth-child(even) {
+    background: #F6F7FB;
+}
+.lms_table_active tbody tr:nth-child(odd) {
+    
+}
+.lms_table_active tbody tr:nth-child(even):hover {
+    background: #f6f6f6;
+}
+.lms_table_active tbody tr:nth-child(odd):hover {
+    background: #FFF;
+}
+.custom-select {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+input[type="text"] {
+    color: #000;
+}
+.profile_info_iner {
+    border: 1px solid #c5c5c5;
+}

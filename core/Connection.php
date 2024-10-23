@@ -2,6 +2,7 @@
 
 namespace core;
 use \PDO;
+use \Exception;
 use \config\Database;
 
 class Connection {

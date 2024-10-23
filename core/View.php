@@ -1,13 +1,28 @@
 <?php
 
 namespace core;
+use App\Views\ViewConfig;
+use core\Router;
 
 class View {
 
+    private static $globalData = array();
     private $data = array();
-    private $render = FALSE;
+    private $renderFile = FALSE;
+
+    public function __construct() {
+        $config = new ViewConfig();
+        foreach($config->getViews() as $name => $view) {
+            self::setGlobal($name, $view);
+        }
+    }
+
+    public static function setGlobal($key, $value) {
+        self::$globalData[$key] = $value;
+    }
 
     public function render($template, $data) {
+        $data = array_merge(self::$globalData, $data);
         try {
             $file = $this->getTemplatePath($template);
             
@@ -18,9 +33,9 @@ class View {
             } else {
                 throw new \Exception('Template ' . $template . ' not found!');
             }
-            $this->render = $file;
+            $this->renderFile = $file;
         } catch (\Exception $e) {
-            echo $e->getMessage();
+            $this->renderFile = $e->getMessage();
         }
     }
 
@@ -50,10 +65,15 @@ class View {
         if(!empty($this->data)) {
             extract($this->data);
         }
-        if (file_exists($this->render)) {
-            include($this->render);
+        if (file_exists($this->renderFile)) {
+            include($this->renderFile);
         } else {
-            exit('<h1>Pagina nao encontrada</h1>');
+            Router::route(__DIR__ . '/../' . PUBLIC_FOLDER_NAME . '/views/error.php', [
+                'error' => '404',
+                'title' => 'Página não encontrada!',
+                'message' => 'Desculpe, a página que você está procurando não existe ou foi movida.'
+            ]);
+            exit;
         }
     }
 }

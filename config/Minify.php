@@ -4,9 +4,9 @@ namespace config;
 
 class Minify {
 
-	public $originCssPath = __DIR__ . '/../assets/css/';
-	public $targetCssPath = __DIR__ . '/../public/assets/css/';
+	public $originCssPath = __DIR__ . PUBLIC_FOLDER_NAME . '/../assets/css/';
+	public $targetCssPath = __DIR__ . PUBLIC_FOLDER_NAME . '/../public/assets/css/';
 
-	public $originJsPath = __DIR__ . '/../assets/js/';
-	public $targetJsPath = __DIR__ . '/../public/assets/js/';
+	public $originJsPath = __DIR__ . PUBLIC_FOLDER_NAME . '/../assets/js/';
+	public $targetJsPath = __DIR__ . PUBLIC_FOLDER_NAME . '/../public/assets/js/';
 }

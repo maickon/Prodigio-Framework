@@ -41,9 +41,9 @@
 </head>
 <body>
     <div class="container">
-        <h1>404</h1>
-        <p>Oops! Página não encontrada.</p>
-        <p>Classe ou Método não encontrado.</p>
+        <h1><?= $error ?></h1>
+        <p><?= $title ?></p>
+        <p><?= $message ?></p>
         <p><a href="/">Voltar para a página inicial</a></p>
     </div>
 </body>

@@ -1,11 +1,12 @@
 <?php
 
 require __DIR__ . '/core/functions.php';
+require __DIR__ . '/App/Functions/functions.php';
 require __DIR__ . '/autoload.php';
 
 use core\SessionManager;
 use core\Router;
-use core\Minifier;
+// use core\Minifier;
 use core\CacheControl;
 
 // CacheControl::setHeaders('html', '/views/home/index.php');
@@ -22,8 +23,8 @@ define('PUBLIC_FOLDER_NAME', 'public');
 
 SessionManager::start();
 
-$cssMinifier = new Minifier('css');
-$jsMinifier = new Minifier('js');
+// $cssMinifier = new Minifier('css');
+// $jsMinifier = new Minifier('js');
 
 require __DIR__ . '/routers/ajax.php';
 require __DIR__ . '/routers/api.php';

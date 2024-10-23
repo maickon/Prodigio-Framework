@@ -34,7 +34,7 @@ class ActiveRecord {
     }
 
     private function getRelatedTable($attribute) {
-        $relatedTable = rtrim($attribute, '_id') . 's';
+        $relatedTable = str_replace('_id', '', $attribute) . 's';
         if (property_exists($this, 'foreign_relationship')) {
             $relatedTable = $this->getforeignRelationship()[$attribute];
         }
@@ -47,9 +47,10 @@ class ActiveRecord {
             if (strpos($attribute, '_id') !== false) {
                 // Identifica a tabela relacionada
                 $relatedTable = $this->getRelatedTable($attribute);
-
+           
                 // Seleciona todos os campos da tabela relacionada com aliases
                 $columns = $this->getColumnsFromTable($relatedTable);
+                
                 foreach ($columns as $column) {
                     $alias = $relatedTable . '_' . $column;
                     $this->query .= ", $relatedTable.$column AS $alias";
@@ -57,7 +58,7 @@ class ActiveRecord {
 
                 // Adiciona o join na consulta
                 $joins[] = "LEFT JOIN $relatedTable ON $this->table_name.$attribute = $relatedTable.id";
-                $this->foreignKeys[$attribute] = rtrim($attribute, '_id');
+                $this->foreignKeys[$attribute] = str_replace('_id', '', $attribute);
             }
         }
         
@@ -107,37 +108,50 @@ class ActiveRecord {
     }
 
 
-    public function find($id) {
+    public function find($id)
+    {
         try {
+            // Verifica se $id é um array
+            $isArray = is_array($id);
+
             // Inicia a consulta principal
             $this->query = "SELECT $this->table_name.*";
-            
+
             // Adiciona os JOINs e os aliases para as chaves estrangeiras
             $joins = $this->fk();
             $this->query .= " FROM $this->table_name " . implode(' ', $joins);
-            $this->query .= " WHERE $this->table_name.id = :id"; // Filtro pelo ID fornecido
-            
+
+            // Modifica a cláusula WHERE com base no tipo de $id
+            if ($isArray) {
+                $placeholders = implode(',', array_fill(0, count($id), '?'));
+                $this->query .= " WHERE $this->table_name.id IN ($placeholders)";
+            } else {
+                $this->query .= " WHERE $this->table_name.id = ?";
+            }
+
             // Prepara e executa a consulta
             $stmt = $this->conn->prepare($this->query);
-            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-            $stmt->execute();
-            
-            // Pega o resultado
-            $result = $stmt->fetch(PDO::FETCH_OBJ);
-            
-            if ($result) {
-                // Processa o resultado, ajustando as chaves estrangeiras
-                $results = $this->fkPrepareAssoc([$result]);
-                return $results[0]; // Retorna o primeiro (e único) resultado
+
+            if ($isArray) {
+                $stmt->execute($id);
             } else {
-                return null; // Caso não encontre o registro
+                $stmt->execute([$id]);
             }
-            
+
+            // Pega o resultado
+            $results = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+            if ($results) {
+                // Processa o resultado, ajustando as chaves estrangeiras
+                $results = $this->fkPrepareAssoc($results);
+                return $isArray ? $results : $results[0];
+            } else {
+                return $isArray ? [] : null;
+            }
         } catch (PDOException $e) {
             exit($e->getMessage());
         }
     }
-
 
     public function findWithDateComparison($columName, $comparisonOperator, $date) {
         try {
@@ -152,24 +166,46 @@ class ActiveRecord {
         }
     }
 
-    public function findByField($field, $value) {
+    public function findByField($field, $value)
+    {
         try {
-            $stmt = $this->conn->prepare("SELECT * FROM $this->table_name WHERE $field = :value");
+            // Inicia a consulta principal
+            $this->query = "SELECT $this->table_name.*";
 
-            $stmt->bindParam(':value', $value);
+            // Adiciona os JOINs e os aliases para as chaves estrangeiras
+            $joins = $this->fk();
+            $this->query .= " FROM $this->table_name " . implode(' ', $joins);
 
-            if ($stmt->execute()) {
-                $result = $stmt->fetchAll(PDO::FETCH_OBJ);
-                return $result;
+            // Verifica se $value é um array
+            $isArray = is_array($value);
+
+            // Modifica a cláusula WHERE com base no tipo de $value
+            if ($isArray) {
+                $placeholders = implode(',', array_fill(0, count($value), '?'));
+                $this->query .= " WHERE $this->table_name.$field IN ($placeholders)";
             } else {
-                return false;
+                $this->query .= " WHERE $this->table_name.$field = ?";
             }
+
+            // Prepara e executa a consulta
+            $stmt = $this->conn->prepare($this->query);
+
+            if ($isArray) {
+                $stmt->execute($value);
+            } else {
+                $stmt->execute([$value]);
+            }
+
+            // Processa os resultados, ajustando as chaves estrangeiras
+            $results = $this->fkPrepareAssoc($stmt->fetchAll(PDO::FETCH_OBJ));
+            return $results;
         } catch (PDOException $e) {
             exit($e->getMessage());
         }
     }
 
     public function findByFields($fields, $values) {
+        // Verifica se $fields e $values são arrays; caso contrário, delega a chamada para findByField
         if (!is_array($fields) && !is_array($values)) {
             return $this->findByField($fields, $values);
         }
@@ -177,6 +213,7 @@ class ActiveRecord {
         $whereClause = '';
         $params = [];
 
+        // Construção da cláusula WHERE com placeholders para bind dos valores
         for ($i = 0; $i < count($fields); $i++) {
             $field = $fields[$i];
             $value = $values[$i];
@@ -190,11 +227,27 @@ class ActiveRecord {
         }
 
         try {
-            $stmt = $this->conn->prepare("SELECT * FROM $this->table_name WHERE $whereClause");
-            
+            // Inicia a consulta principal
+            $this->query = "SELECT $this->table_name.*";
+
+            // Adiciona os JOINs e os aliases para as chaves estrangeiras
+            $joins = $this->fk(); // Adiciona os joins relacionados
+            $this->query .= " FROM $this->table_name " . implode(' ', $joins);
+
+            // Aplica a cláusula WHERE
+            $this->query .= " WHERE $whereClause";
+
+            // Prepara e executa a consulta
+            $stmt = $this->conn->prepare($this->query);
+
             if ($stmt->execute($params)) {
-                $result = $stmt->fetchAll(PDO::FETCH_OBJ);
-                return $result;
+                // Pega os resultados da consulta
+                $results = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+                // Processa os resultados para adicionar os relacionamentos de chave estrangeira
+                $results = $this->fkPrepareAssoc($results);
+
+                return $results;
             } else {
                 return false;
             }
@@ -202,6 +255,7 @@ class ActiveRecord {
             exit($e->getMessage());
         }
     }
+
 
     public function insert($data, $checkDuplicateField = null) {
         if ($checkDuplicateField !== null && !empty($checkDuplicateField)) {
@@ -278,6 +332,25 @@ class ActiveRecord {
                 return true;
             } else {
                 return false;
+            }
+        } catch (PDOException $e) {
+            exit($e->getMessage());
+        }
+    }
+
+    public function executeSql($sql, $params = []) {
+        try {
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute($params);
+
+            $results = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+            if (empty($results)) {
+                return [];
+            } elseif (count($results) === 1) {
+                return $results[0];
+            } else {
+                return $results;
             }
         } catch (PDOException $e) {
             exit($e->getMessage());

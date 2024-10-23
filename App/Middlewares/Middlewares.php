@@ -7,12 +7,12 @@ use core\ActiveRecord;
 use core\Request;
 use core\Debug;
 use core\SessionManager;
-use App\Models\User;
+use core\Authorizer;
 
 class Middlewares {
 
 	public function hasLogin() {
-		if(SessionManager::get('user')) {
+		if(Authorizer::auth('user')) {
 			return true;
 		} else {
 			return false;
@@ -30,13 +30,5 @@ class Middlewares {
 		} else {
 			return false;
 		}
-	}
-
-	public function test1() {
-		return true;
-	}
-
-	public function test2() {
-		return true;
 	}
 }

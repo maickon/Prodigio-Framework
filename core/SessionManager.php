@@ -8,6 +8,10 @@ class SessionManager {
         session_start();
     }
 
+    public static function all() {
+        return $_SESSION;
+    }
+
     public static function set(string $key, $value) {
         $_SESSION[$key] = $value;
     }
@@ -38,6 +42,7 @@ class SessionManager {
     public static function getFlash(string $key) {
         if (isset($_SESSION['flash'][$key])) {
             $value = $_SESSION['flash'][$key];
+
             unset($_SESSION['flash'][$key]);
             return $value;
         }

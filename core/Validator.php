@@ -15,7 +15,16 @@ class Validator {
         $this->errors = [];
     }
 
+    protected function validateFieldExists($field) {
+        if (!array_key_exists($field, $this->data)) {
+            $this->addError($field, "O campo '{$this->names[$field]}' não foi preenchido.");
+        }
+    }
     public function validate() {
+        foreach ($this->rules as $field => $value) {
+            $this->validateFieldExists($field);
+        }
+
         foreach ($this->rules as $field => $rules) {
             $rules = explode('|', $rules);
 
@@ -94,6 +103,32 @@ class Validator {
         if (!is_numeric($this->data[$field])) {
             $this->addError($field, 'O campo ' . $this->names[$field] . ' deve ser um número.');
         }
+    }
+
+    // Método de validação para verificar se um campo é porcentagem
+    // $rules = [
+    //     'fee' => 'required|Percentage',
+    // ];
+    protected function validatePercentage($field) {
+        $value = $this->data[$field];
+
+        // Verifica se o valor é um número inteiro ou decimal
+        if (is_numeric($value) && ($this->isInteger($value) || $this->isDecimal($value))) {
+            return true;
+        }
+
+        $this->addError($field, 'O campo ' . $this->names[$field] . ' deve ser um número inteiro ou decimal válido.');
+        return false;
+    }
+
+    // Método auxiliar para verificar se é um número inteiro
+    protected function isInteger($value) {
+        return filter_var($value, FILTER_VALIDATE_INT) !== false;
+    }
+
+    // Método auxiliar para verificar se é um número decimal
+    protected function isDecimal($value) {
+        return filter_var($value, FILTER_VALIDATE_FLOAT) !== false && strpos((string)$value, '.') !== false;
     }
 
     // Método de validação para verificar se um campo é uma URL válida
@@ -560,4 +595,100 @@ class Validator {
             }
         }
     }
+
+    // Método de validação para verificar se o CPF é válido
+    protected function validateCpf($field) {
+        $value = preg_replace('/\D/', '', $this->data[$field]); // Remove caracteres não numéricos
+
+        if (strlen($value) !== 11 || !$this->isCpfValid($value)) {
+            $this->addError($field, 'O campo ' . $this->names[$field] . ' deve ser um CPF válido.');
+        }
+    }
+
+    // Método auxiliar para verificar a validade do CPF
+    private function isCpfValid($cpf) {
+        // Verifica se todos os dígitos são iguais
+        if (preg_match('/^(\d)\1{10}$/', $cpf)) {
+            return false; // CPF inválido
+        }
+
+        // Validação dos dígitos verificadores
+        for ($t = 9; $t < 11; $t++) {
+            for ($d = 0, $c = 0; $c < $t; $c++) {
+                $d += $cpf[$c] * (($t + 1) - $c);
+            }
+            $d = ((10 * $d) % 11) % 10;
+            if ($cpf[$c] != $d) {
+                return false; // CPF inválido
+            }
+        }
+
+        return true; // CPF válido
+    }
+
+    // Método de validação para verificar se o CNPJ é válido
+    protected function validateCnpj($field) {
+        $value = preg_replace('/\D/', '', $this->data[$field]); // Remove caracteres não numéricos
+
+        if (strlen($value) !== 14 || !$this->isCnpjValid($value)) {
+            $this->addError($field, 'O campo ' . $this->names[$field] . ' deve ser um CNPJ válido.');
+        }
+    }
+
+    // Método auxiliar para verificar a validade do CNPJ
+    private function isCnpjValid($cnpj) {
+        // Verifica se todos os dígitos são iguais
+        if (preg_match('/^(\d)\1{13}$/', $cnpj)) {
+            return false; // CNPJ inválido
+        }
+
+        // Validação dos dígitos verificadores
+        $valid = false;
+        for ($t = 12; $t < 14; $t++) {
+            for ($d = 0, $c = 0; $c < $t; $c++) {
+                $d += $cnpj[$c] * (($t + 1) - $c);
+            }
+            $d = ((10 * $d) % 11) % 10;
+            if ($cnpj[$c] != $d) {
+                return false; // CNPJ inválido
+            }
+        }
+
+        return true; // CNPJ válido
+    }
+
+    // Método que verifica se um valor é um CPF ou CNPJ válido
+    protected function validateCpfOrCnpj($field) {
+        $value = preg_replace('/\D/', '', $this->data[$field]); // Remove caracteres não numéricos
+
+        // Verifica se é um CPF
+        if (strlen($value) === 11 && $this->isCpfValid($value)) {
+            return true; // CPF válido
+        }
+
+        // Verifica se é um CNPJ
+        if (strlen($value) === 14 && $this->isCnpjValid($value)) {
+            return true; // CNPJ válido
+        }
+
+        // Se não for CPF ou CNPJ válido, retorna false
+        $this->addError($field, 'O campo ' . $this->names[$field] . ' deve ser um CPF ou CNPJ válido.');
+        return false; 
+    }
+
+    // Método que valida um número de telefone brasileiro
+    protected function validatePhoneNumber($field) {
+        // Remove caracteres não numéricos
+        $value = preg_replace('/\D/', '', $this->data[$field]);
+
+        // Verifica se o número tem 10 ou 11 dígitos (com DDD)
+        if (strlen($value) === 10 || strlen($value) === 11) {
+            return true; // Número de telefone válido
+        }
+
+        // Se o número não for válido, adiciona um erro
+        $this->addError($field, 'O campo ' . $this->names[$field] . ' deve ser um número de telefone válido.');
+        return false; 
+    }
+
 }
